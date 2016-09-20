@@ -1,7 +1,7 @@
 const Chai = require('chai');
 const expect = Chai.expect;
 const pigLatin = require('../pigLatin');
-var pigLatinObj = pigLatin();
+let pigLatinObj = pigLatin();
 
 describe('pigLatin', () => {
 	beforeEach(function() {
@@ -21,6 +21,32 @@ describe('pigLatin', () => {
 		expect(pigLatinObj).to.be.an('object');
 	});
 
+	describe('sentenceToArrOfWords', () => {
+		beforeEach(function() {
+			pigLatinObj = pigLatin();
+		});
+
+		it('should exist', () => {
+			expect(pigLatinObj.sentenceToArrOfWords).to.exist;
+		});
+		
+		it('should be a function', () => {
+			expect(pigLatinObj.sentenceToArrOfWords).to.be.a('function');
+		});
+
+		it('should throw an error if the parameter is not a string', () => {
+			expect(pigLatinObj.sentenceToArrOfWords.bind(this,235)).to.throw(Error);
+		});
+
+		it('should return an array', () => {
+			let stringTest = 'Hello there, my name is Renee!';
+			let ArrayedString = pigLatinObj.sentenceToArrOfWords(stringTest);
+			expect(ArrayedString.pop()).to.equal('Renee!');
+			expect(ArrayedString.splice(1,1).toString()).to.equal('there,');
+		})
+
+	});
+
 	describe('startsWithVowel', () => {
 		beforeEach(function() {
 			pigLatinObj = pigLatin();
@@ -32,10 +58,6 @@ describe('pigLatin', () => {
 
 		it('should be a function', () => {
 			expect(pigLatinObj.startsWithVowel).to.be.a('function');
-		});
-
-		it('should throw an error if the parameter is not a string', () => {
-			expect(pigLatinObj.startsWithVowel.bind(this,235)).to.throw(Error);
 		});
 
 		it('should return true if the parameter starts with a vowel', () => {
@@ -50,10 +72,32 @@ describe('pigLatin', () => {
 
 	});
 
-	describe('', () => {
+	describe('toPigLatin', () => {
+		beforeEach(function() {
+			pigLatinObj = pigLatin();
+		});
 
+		it('should exist', () => {
+			expect(pigLatinObj.toPigLatin).to.exist;
+		});
+
+		it('should be a function', () => {
+			expect(pigLatinObj.toPigLatin).to.be.a('function');
+		});
+
+		it('should throw an error if the parameter is not a string', () => {
+			expect(pigLatinObj.toPigLatin.bind(this,false)).to.throw(Error);
+		});
+
+		it('should take a sentence and return the Pig Latin translation', () => {
+			let englishSentence = 'Translate me into Pig Latin please!';
+			let pigLatinSentence = pigLatinObj.toPigLatin(englishSentence);
+			let translatedInArr = pigLatinObj.sentenceToArrOfWords(pigLatinSentence);
+			expect(translatedInArr.shift().toString()).to.equal('anslateTray');
+		});
 
 	});
+	
 });
 
 
