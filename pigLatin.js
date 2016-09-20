@@ -31,9 +31,9 @@ module.exports = function () {
 			let pigLatinArray = [];
 			while(sentenceArray[i]){
 				if(this.startsWithVowel(sentenceArray[i])) {
-					pigLatinArray.push(sentenceArray[i] + ay);
+					pigLatinArray.push(sentenceArray[i] + '-' + ay);
 				} else {
-					let firstConsonant = ''
+					let firstConsonant = '-';
 					while(!this.startsWithVowel(sentenceArray[i])) {
 						firstConsonant += sentenceArray[i].charAt(0);
 						sentenceArray[i] = sentenceArray[i].substring(1);
@@ -42,7 +42,7 @@ module.exports = function () {
 				}
 				i++;
 			}
-			let stringPigLatin = pigLatinArray.join(' ');
+			let stringPigLatin = pigLatinArray.join(' ');			
 			if (stringPigLatin.charAt(stringPigLatin.length -1) === ' '){
 				stringPigLatin.slice(0, -1);
 				return stringPigLatin;

@@ -93,7 +93,9 @@ describe('pigLatin', () => {
 			let englishSentence = 'Translate me into Pig Latin please!';
 			let pigLatinSentence = pigLatinObj.toPigLatin(englishSentence);
 			let translatedInArr = pigLatinObj.sentenceToArrOfWords(pigLatinSentence);
-			expect(translatedInArr.shift().toString()).to.equal('anslateTray');
+			expect(translatedInArr.shift()).to.equal('anslate-Tray');
+			expect(translatedInArr.splice(1,1).toString()).to.equal('into-ay');
+			expect(translatedInArr.join(' ')).to.equal('e-may ig-Pay atin-Lay ease!-play');
 		});
 
 	});
