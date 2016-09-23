@@ -68,13 +68,13 @@ describe('pigLatin', () => {
 
 		it('should throw an error if the parameter is not in Pig Latin', () => {
 			expect(pigLatinObj.toNativeLanguage.bind(this,'Hello there')).to.throw(Error);
+			expect(pigLatinObj.toNativeLanguage.bind(this,'eat-aay')).to.throw(Error);
 		});
 
 		it('should take a sentence and return the Native Language translation', () => {
 			let pigLatinSentence = 'anslate-Tray e-may into-ay English-ay ease!-play';
 			expect(pigLatinObj.toNativeLanguage(pigLatinSentence)).to.equal('Translate me into English please!');
-			// expect(translatedInArr.splice(1,1).toString()).to.equal('');
-			// expect(translatedInArr.join(' ')).to.equal('');
+			
 		});
 
 	});

@@ -5,12 +5,22 @@ module.exports = function () {
 
 	function isPigLatin(word) {
 		if(startsWithVowel(word)) {
-			if(word.substring(word.length - 2) === 'ay') {
-				return true;
+			if(word.indexOf('-') === word.lastIndexOf('-')) {
+				let lastPart = word.substring(word.indexOf('-')+1);
+				let possibleAy = lastPart.substring(lastPart.indexOf('a'));
+				if(possibleAy === ay) {
+					let shouldBeConsonants = lastPart.substring(0,lastPart.indexOf('a'));
+					let isTrue = true;
+					for (var i = 0; i < shouldBeConsonants.length; i++) {
+						if(startsWithVowel(shouldBeConsonants.charAt(i))) {
+							isTrue = false;
+						}
+					}
+					return true;
+				}
 			}
-		} else {
-			throw new Error('That\'s not in Pig Latin!');
 		}
+		return false;
 	};
 
 	function startsWithVowel(word) {
@@ -75,19 +85,49 @@ module.exports = function () {
 
 		toNativeLanguage: function(sentence) {
 			let sentenceArray = sentenceToArrOfWords(sentence);
-			let i = 0;
+			let inPigLatin = true;
 			let nativeLanguageArray = []; 
-			while(sentenceArray[i] && isPigLatin(sentenceArray[i])) {
-				if (sentenceArray[i].substring(sentenceArray[i].length - 3) === '-ay') {
-					nativeLanguageArray.push(sentenceArray[i].substring(0, sentenceArray[i].length - 3));
+
+			for (var i = 0; i < sentenceArray.length; i++) {
+				if (!isPigLatin(sentenceArray[i])) {
+					inPigLatin = false;
+					i = sentenceArray.length;
+				} 
+			}
+			if(!inPigLatin) {
+				throw new Error('That\'s not in Pig Latin');
+			}
+
+			function vowelFirstLetter (word) {
+				return word.substring(0,word.indexOf('-'));
+			}
+
+			function consonantFirstLetter(word) {
+				//save first substring until - in variable
+				//save second substring from after - to end of array -2 (the ay)
+				//return second substring + first substring
+				let beginning = word.substring(0, word.indexOf('-'));
+				let ending = word.substring(word.indexOf('-') +1, word.length - 2);
+				return ending + beginning;
+			}
+
+			function nativeStartsWithConsonant(word) {
+				if (word.indexOf('-') === word.length - 3) {
+					return false;
 				} else {
-					let firstConst = sentenceArray[i].substring(sentenceArray[i].indexOf('-') + 1,sentenceArray[i].length -2);
-					nativeLanguageArray.push(firstConst + sentenceArray[i].substring(0, sentenceArray[i].indexOf('-')));
+					return true;
 				}
-				i++;
+			}
+
+			for (var i = 0; i < sentenceArray.length; i++) {
+				if (!nativeStartsWithConsonant(sentenceArray[i])) {
+					nativeLanguageArray.push(vowelFirstLetter(sentenceArray[i]))
+				} else {
+					nativeLanguageArray.push(consonantFirstLetter(sentenceArray[i]));
+				}
 			}
 			return nativeLanguageArray.join(' ');
-		},		
+		}		
 
 	};
 };
